@@ -1,48 +1,43 @@
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { BlogPostCard } from '@/components/blog-post-card'
-import { getPosts } from '@/lib/db/posts'
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { BlogPostCard } from "@/components/blog-post-card"
+import { getPosts } from "@/lib/db/posts"
+import { Hero } from "@/components/Hero"
 
 export default async function Home() {
   const recentPosts = await getPosts()
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <section className="text-center py-20">
-        <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6">
-          Welcome to My Blog
-        </h1>
-        <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto font-body">
-          A modern blog built with Next.js, Supabase, and Tailwind CSS. 
-          Share your thoughts and ideas with the world.
-        </p>
-        <div className="space-x-4">
-          <Button asChild size="lg">
-            <Link href="/blog">Read Blog</Link>
-          </Button>
-          <Button variant="outline" asChild size="lg">
-            <Link href="/about">Learn More</Link>
-          </Button>
-        </div>
-      </section>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-800 to-pink-700 text-white">
+      {/* Client-side animated Hero */}
+      <Hero />
 
-      <section className="py-16">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-3xl font-serif font-bold">Recent Posts</h2>
-          <Button variant="outline" asChild>
+      {/* Recent Posts Section */}
+      <section className="py-20 container mx-auto px-6">
+        <div className="flex justify-between items-center mb-10">
+          <h2 className="text-4xl font-bold bg-gradient-to-r from-pink-300 via-purple-200 to-indigo-300 bg-clip-text text-transparent">
+            Recent Posts
+          </h2>
+          <Button
+            variant="outline"
+            asChild
+            className="border-white text-white hover:bg-white hover:text-purple-700 rounded-xl"
+          >
             <Link href="/blog">View All</Link>
           </Button>
         </div>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {recentPosts.slice(0, 3).map((post) => (
-            <BlogPostCard key={post.id} post={post} />
-          ))}
+
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {recentPosts.length > 0 ? (
+            recentPosts.slice(0, 3).map((post) => (
+              <BlogPostCard key={post.id} post={post} />
+            ))
+          ) : (
+            <div className="text-center py-16">
+              <p className="text-gray-300 text-lg">No posts yet. Check back soon! 🚀</p>
+            </div>
+          )}
         </div>
-        {recentPosts.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">No posts yet. Check back soon!</p>
-          </div>
-        )}
       </section>
     </div>
   )

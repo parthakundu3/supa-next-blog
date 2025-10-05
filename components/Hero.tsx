@@ -61,7 +61,7 @@ export function Hero() {
           variant="outline"
           asChild
           size="lg"
-          className="border-2 border-white text-lg px-6 py-3 rounded-2xl hover:bg-white hover:text-purple-800 transition-colors shadow-lg"
+          className="border-2 text-lg px-6 text-purple-500 py-3 rounded-2xl hover:text-purple-800 hover:scale-105 shadow-lg"
         >
           <Link href="/about">✨ Learn More</Link>
         </Button>

@@ -30,3 +30,11 @@ export interface CreatePostDTO {
   cover_image?: string
   published?: boolean
 }
+
+export interface BlogPostFormData {
+  title: string
+  content: string
+  excerpt: string
+  cover_image: string
+  published: boolean
+}

@@ -21,7 +21,7 @@ export default async function Home() {
           <Button
             variant="outline"
             asChild
-            className="border-white text-white hover:bg-white hover:text-purple-700 rounded-xl"
+            className="border-white text-purple-800 hover:text-purple-500 rounded-xl"
           >
             <Link href="/blog">View All</Link>
           </Button>

@@ -28,6 +28,8 @@ export async function getPosts(): Promise<BlogPost[]> {
   }
 }
 
+
+
 export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
   try {
     const { data: post, error } = await supabase

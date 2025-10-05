@@ -3,7 +3,7 @@ export interface User {
   email?: string
   user_metadata?: {
     username?: string
-    [key: string]: any
+    [key: string]: string | undefined
   }
 }
 

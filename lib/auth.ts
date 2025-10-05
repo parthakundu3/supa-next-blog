@@ -2,6 +2,13 @@ import { supabase } from '@/lib/supabase'
 import { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
+// Define the user type returned by authorize function
+interface AuthorizedUser {
+  id: string
+  email: string
+  name?: string | null
+  accessToken?: string
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -11,7 +18,7 @@ export const authOptions: NextAuthOptions = {
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' }
       },
-      async authorize(credentials): Promise<any> {
+      async authorize(credentials): Promise<AuthorizedUser | null> {
         if (!credentials?.email || !credentials?.password) {
           return null
         }
@@ -27,12 +34,15 @@ export const authOptions: NextAuthOptions = {
             return null
           }
 
-          return {
+          // Return the user object with proper typing
+          const user: AuthorizedUser = {
             id: data.user.id,
-            email: data.user.email,
+            email: data.user.email!,
             name: data.user.user_metadata?.name || data.user.email,
             accessToken: data.session?.access_token,
           }
+
+          return user
         } catch (error) {
           console.error('Authorization error:', error)
           return null
@@ -47,15 +57,17 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user, account }) {
       if (user) {
-        token.id = user.id
-        token.accessToken = (user as any).accessToken
+        // Type assertion is safe because we know the shape of user from authorize
+        const authorizedUser = user as AuthorizedUser
+        token.id = authorizedUser.id
+        token.accessToken = authorizedUser.accessToken
       }
       return token
     },
     async session({ session, token }) {
       if (token) {
-        session.user.id = token.id
-        session.accessToken = token.accessToken
+        session.user.id = token.id as string
+        session.accessToken = token.accessToken as string
       }
       return session
     }

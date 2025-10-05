@@ -4,6 +4,7 @@ import { Navbar } from '@/components/navbar'
 import './globals.css'
 import { SessionProvider } from '@/components/SessionProvider'
 import { getCurrentUser } from '@/lib/session'
+import { ToasterProvider } from '@/components/ToasterProvider'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -36,17 +37,18 @@ export default async function RootLayout({
       <body className={`${inter.variable} ${literata.variable} ${sourceSans.variable} font-sans min-h-screen bg-background`}>
        {!user?.id && <Navbar />}
         <main className="flex-1">
-          <SessionProvider>
+         <SessionProvider>
+          <ToasterProvider />
           {children}
         </SessionProvider>
         </main>
-        <footer className="border-t py-6 md:py-0">
+        {!user?.id && <footer className="border-t py-6 md:py-0">
           <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
             <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
               Built with Next.js, Supabase, and shadcn/ui
             </p>
           </div>
-        </footer>
+        </footer>}
       </body>
     </html>
   )

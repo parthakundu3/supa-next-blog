@@ -6,7 +6,15 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["Inter", "system-ui", "sans-serif"],
+      },
+      animation: {
+        "fade-in": "fade-in 0.5s ease-out",
+        "slide-in": "slide-in-from-top-5 0.2s ease-out",
+      },
+    },
   },
   plugins: [],
 };

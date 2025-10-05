@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { BlogService } from '@/lib/blogService'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
     if (!session) {
@@ -15,7 +15,7 @@ export async function GET() {
   } catch (error) {
     console.error('Error fetching posts:', error)
     return NextResponse.json(
-      { error: 'Internal server error', details: error instanceof Error ? error.message : 'Unknown error' },
+      { error: 'Internal server error' },
       { status: 500 }
     )
   }
@@ -29,8 +29,8 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    console.log('Received post data:', body) // Debug log
-    console.log('User ID:', session.user.id) // Debug log
+    console.log('Received post data:', body)
+    console.log('User ID:', session.user.id)
 
     const post = await BlogService.createPost({
       ...body,

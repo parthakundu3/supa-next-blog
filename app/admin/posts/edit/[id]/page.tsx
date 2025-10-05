@@ -17,9 +17,15 @@ export default function EditPostPage() {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        console.log('Fetching post with ID:', params.id) // Debug log
+        // params.id might be a string or an array, ensure we get the string
+        const postId = Array.isArray(params.id) ? params.id[0] : params.id
+        console.log('Fetching post with ID:', postId)
         
-        const response = await fetch(`/api/admin/posts/${params.id}`)
+        if (!postId) {
+          throw new Error('No post ID provided')
+        }
+        
+        const response = await fetch(`/api/admin/posts/${postId}`)
         
         if (!response.ok) {
           if (response.status === 404) {
